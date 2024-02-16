@@ -1,0 +1,23 @@
+# Terraform directories and files
+**/.terraform/*
+**/terraform-provider*/*
+*.tfstate
+*.tfstate.*
+*.terraform*
+*crash.log*
+
+# Files that may contain secrets
+*terraform.tfvars*
+*kube_config.yml*
+*-ssh_private_key.pem*
+*-ssh_public_key.pem*
+*config-yaml*
+*token.json*
+*setup-nv-federation.sh*
+
+# Temporary files
+**/*.swp
+*.DS_Store*
+
+# Allow
+!setup-nv-federation.sh.tpl

@@ -17,6 +17,7 @@ Create a pair of Kubernetes clusters on different Cloud Providers, secure from d
 │   └── gke #Tf files, and NV cusotm Helm Chart values file
 ├── remote
 │   └── eks #Tf files, and NV cusotm Helm Chart values file
+├── setup-nv-federation.sh
 └── README.md
 
 ```
@@ -46,13 +47,21 @@ Create a pair of Kubernetes clusters on different Cloud Providers, secure from d
 
 ```bash
 cd ./primary/gke && terraform init --upgrade && terraform apply -target=module.google-kubernetes-engine --auto-approve && terraform apply --auto-approve ;
+cd ../../ ;
 cd ./remote/eks && terraform init --upgrade && terraform apply -target=module.aws-elastic-kubernetes-service --auto-approve && terraform apply --auto-approve ;
-cp ./setup-nv-federation.sh.tpl ./setup-nv-federation.sh ;
-sed -i '' "s/PRIMARY_CLUSTER_FEDSVC_IP=.*/PRIMARY_CLUSTER_FEDSVC_IP=\"$(terraform output -state=./primary/gke/terraform.tfstate -raw neuvector-svc-controller-fed-managed)\"/g" ./setup-nv-federation.sh ;
-sed -i '' "s/SECONDARY_CLUSTER_FEDSVC_IP=.*/SECONDARY_CLUSTER_FEDSVC_IP=\"$(terraform output -state=./remote/eks/terraform.tfstate -raw neuvector-svc-controller-fed-managed)\"/g" ./setup-nv-federation.sh ;
-sed -i '' "s/PRIMARY_CLUSTER_ADMIN_PWD=.*/PRIMARY_CLUSTER_ADMIN_PWD=\"$(cat ./primary/gke/terraform.tfvars | grep -i neuvector_password | awk -F= '{print $2}' | tr -d '"' | sed 's/ //g')\"/g" ./setup-nv-federation.sh ;
-sed -i '' "s/SECONDARY_CLUSTER_ADMIN_PWD=.*/SECONDARY_CLUSTER_ADMIN_PWD=\"$(cat ./remote/eks/terraform.tfvars | grep -i neuvector_password | awk -F= '{print $2}' | tr -d '"' | sed 's/ //g')\"/g" ./setup-nv-federation.sh ;
-sh ./setup-nv-federation.sh
+cd ../../ ;
+sh ./setup-nv-federation.sh ; 
+echo "DONE!"
+```
+
+## One-click cleaning
+
+```bash
+cd ./remote/eks && sh ./drain-nodes.sh ; terraform destroy --auto-approve ;
+cd ../../ ;
+cd ./primary/gke && terraform state rm module.google-kubernetes-engine.local_file.kube-config-export ; terraform destroy -target=module.google-kubernetes-engine --auto-approve ; terraform destroy --auto-approve ;
+cd ../../ ;
+echo "DONE!"
 ```
 
 **These scripts work perfectly from the macOS terminal; if you use any other Linux distribution, remove `''` from the `sed` command.**

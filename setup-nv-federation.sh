@@ -41,6 +41,7 @@ echo
 echo "Check the federation status on the Master cluster."
 curl -k -H "Content-Type: application/json" -H "X-Auth-Token: $PRIMARY_CLUSTER_ADMIN_PWD_TOKEN" "https://$PRIMARY_CLUSTER_FEDMANAGED_IP:10443/v1/fed/member" > /dev/null 2>&1 > ./fed_member.json
 cat ./fed_member.json | jq -c .
+echo
 
 echo "Check the federation status on the Worker cluster."
 curl -k -H "Content-Type: application/json" -H "X-Auth-Token: $SECONDARY_CLUSTER_ADMIN_PWD_TOKEN" "https://$SECONDARY_CLUSTER_FEDMANAGED_IP:10443/v1/fed/member" > /dev/null 2>&1 > ./fed_member.json

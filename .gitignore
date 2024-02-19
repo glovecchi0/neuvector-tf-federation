@@ -13,11 +13,8 @@
 *-ssh_public_key.pem*
 *config-yaml*
 *token.json*
-*setup-nv-federation.sh*
+*fed_member.json*
 
 # Temporary files
 **/*.swp
 *.DS_Store*
-
-# Allow
-!setup-nv-federation.sh.tpl

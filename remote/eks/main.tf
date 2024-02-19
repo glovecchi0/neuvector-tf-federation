@@ -51,7 +51,7 @@ data "kubernetes_service" "neuvector-svc-controller-fed-managed" {
 
 data "kubernetes_service" "neuvector-svc-controller-fed-master" {
   metadata {
-    name      = "neuvector-svc-controller-fed-managed"
+    name      = "neuvector-svc-controller-fed-master"
     namespace = resource.helm_release.neuvector-core.namespace
   }
 }

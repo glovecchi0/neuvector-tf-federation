@@ -1,5 +1,7 @@
 #!/bin/bash
 
+sleep 180
+
 PRIMARY_CLUSTER_FEDMASTER_IP="$(terraform output -state=./primary/gke/terraform.tfstate neuvector-svc-controller-fed-master | tr -d '"' | sed 's/ //g')"
 PRIMARY_CLUSTER_FEDMANAGED_IP="$(terraform output -state=./primary/gke/terraform.tfstate neuvector-svc-controller-fed-managed | tr -d '"' | sed 's/ //g')"
 SECONDARY_CLUSTER_FEDMASTER_IP="$(terraform output -state=./remote/eks/terraform.tfstate neuvector-svc-controller-fed-master | tr -d '"' | sed 's/ //g')"

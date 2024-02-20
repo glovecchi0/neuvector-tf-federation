@@ -46,22 +46,26 @@ Create a pair of Kubernetes clusters on different Cloud Providers, secure from d
 ## One-click creation
 
 ```bash
+date ;
 cd ./primary/gke && terraform init --upgrade && terraform apply -target=module.google-kubernetes-engine --auto-approve && terraform apply --auto-approve ;
 cd ../../ ;
 cd ./remote/eks && terraform init --upgrade && terraform apply -target=module.aws-elastic-kubernetes-service --auto-approve && terraform apply --auto-approve ;
 cd ../../ ;
-sh ./setup-nv-federation.sh ; 
-echo "DONE!"
+sh ./setup-nv-federation.sh ;
+date ;
+echo "Creation completed"
 ```
 
 ## One-click cleaning
 
 ```bash
+date ;
 cd ./remote/eks && sh ./drain-nodes.sh ; terraform destroy --auto-approve ;
 cd ../../ ;
 cd ./primary/gke && terraform state rm module.google-kubernetes-engine.local_file.kube-config-export ; terraform destroy -target=module.google-kubernetes-engine --auto-approve ; terraform destroy --auto-approve ;
 cd ../../ ;
-echo "DONE!"
+date ;
+echo "Cleaning completed"
 ```
 
 **These scripts work perfectly from the macOS terminal; if you use any other Linux distribution, remove `''` from the `sed` command.**

@@ -19,7 +19,7 @@ curl -k -H "Content-Type: application/json" -H "X-Auth-Token: $PRIMARY_CLUSTER_A
 sleep 6
 echo
 
-echo "Login as admin on the primary NeuVector (now MASTER) cluster and retrieve the token.json file from this user."
+echo "Login as admin on the primary NeuVector cluster and retrieve the token.json file from this user."
 curl -k -H "Content-Type: application/json" -d '{"password": {"username": "admin", "password": "'$PRIMARY_CLUSTER_ADMIN_PWD'"}}' "https://$PRIMARY_CLUSTER_FEDMANAGED_IP:10443/v1/auth" > /dev/null 2>&1 > ./primary_cluster_admin_token.json
 PRIMARY_CLUSTER_ADMIN_PWD_TOKEN=`cat ./primary_cluster_admin_token.json | jq -r '.token.token'`
 echo
@@ -35,7 +35,7 @@ curl -k -H "Content-Type: application/json" -d '{"password": {"username": "admin
 SECONDARY_CLUSTER_ADMIN_PWD_TOKEN=`cat ./secondary_cluster_admin_token.json | jq -r '.token.token'`
 echo
 
-echo "Join the remote cluster (now WORKER) to the Controller."
+echo "Join the remote cluster to the Controller."
 curl -k -H "Content-Type: application/json" -H "X-Auth-Token: $SECONDARY_CLUSTER_ADMIN_PWD_TOKEN" -d '{"join_token": "'$PRIMARY_CLUSTER_JOIN_TOKEN'", "name": "worker", "joint_rest_info": {"port": 10443, "server": "'$SECONDARY_CLUSTER_FEDMANAGED_IP'"}}' "https://$SECONDARY_CLUSTER_FEDMANAGED_IP:10443/v1/fed/join" > /dev/null 2>&1
 sleep 9
 echo

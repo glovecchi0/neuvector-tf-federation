@@ -38,7 +38,6 @@ Create a pair of Kubernetes clusters on different Cloud Providers, secure from d
 - Edit `./remote/eks/terraform.tfvars`
   - Update the required variables:
     -  `prefix` to give the resources an identifiable name (eg, your initials or first name)
-    -  `allowed_ip_cidr_range` to specify which IP addresses will be able to contact the cluster API Server
     -  `aws_region` to suit your region
     -  `neuvector_password` to change the default admin password
 - Log in to the AWS provider from your local Terminal. See the preparatory steps [here](https://github.com/glovecchi0/neuvector-tf/tree/main/tf-modules/aws/README.md)
@@ -47,9 +46,9 @@ Create a pair of Kubernetes clusters on different Cloud Providers, secure from d
 
 ```bash
 date ;
-cd ./primary/gke && terraform init --upgrade && terraform apply -target=module.google-kubernetes-engine --auto-approve && terraform apply --auto-approve ;
+cd ./primary/gke && terraform init -upgrade && terraform apply -auto-approve ;
 cd ../../ ;
-cd ./remote/eks && terraform init --upgrade && terraform apply -target=module.aws-elastic-kubernetes-service --auto-approve && terraform apply --auto-approve ;
+cd ./remote/eks && terraform init -upgrade && terraform apply -auto-approve ;
 cd ../../ ;
 sh ./setup-nv-federation.sh ;
 date ;
@@ -60,9 +59,9 @@ echo "Creation completed"
 
 ```bash
 date ;
-cd ./remote/eks && sh ./drain-nodes.sh ; terraform destroy --auto-approve ;
+cd ./remote/eks && terraform destroy -auto-approve ;
 cd ../../ ;
-cd ./primary/gke && terraform state rm module.google-kubernetes-engine.local_file.kube-config-export ; terraform destroy -target=module.google-kubernetes-engine --auto-approve ; terraform destroy --auto-approve ;
+cd ./primary/gke && terraform destroy -auto-approve ;
 cd ../../ ;
 date ;
 echo "Cleaning completed"

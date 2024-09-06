@@ -1,14 +1,19 @@
-output "neuvector-webui-url" {
-  value       = "https://${data.kubernetes_service.neuvector-service-webui.status.0.load_balancer.0.ingress[0].hostname}:8443"
+output "neuvector_webui_url" {
+  value       = "https://${data.kubernetes_service.neuvector_service_webui.status.0.load_balancer.0.ingress[0].hostname}:8443"
   description = "NeuVector WebUI (Console) URL"
 }
 
-output "neuvector-svc-controller-fed-managed" {
-  value       = data.kubernetes_service.neuvector-svc-controller-fed-managed.status.0.load_balancer.0.ingress[0].hostname
+output "neuvector_password" {
+  description = "NeuVector Initial Custom Password"
+  value       = var.neuvector_password
+}
+
+output "neuvector_svc_controller_fed_managed" {
+  value       = data.kubernetes_service.neuvector_svc_controller_fed_managed.status.0.load_balancer.0.ingress[0].ip
   description = "NeuVector fed-managed IP"
 }
 
-output "neuvector-svc-controller-fed-master" {
-  value       = data.kubernetes_service.neuvector-svc-controller-fed-master.status.0.load_balancer.0.ingress[0].hostname
+output "neuvector_svc_controller_fed_master" {
+  value       = data.kubernetes_service.neuvector_svc_controller_fed_master.status.0.load_balancer.0.ingress[0].ip
   description = "NeuVector fed-master IP"
 }

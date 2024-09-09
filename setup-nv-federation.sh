@@ -2,10 +2,10 @@
 
 sleep 180
 
-PRIMARY_CLUSTER_FEDMASTER_IP="$(terraform output -state=./primary/gke/terraform.tfstate neuvector-svc-controller-fed-master | tr -d '"' | sed 's/ //g')"
-PRIMARY_CLUSTER_FEDMANAGED_IP="$(terraform output -state=./primary/gke/terraform.tfstate neuvector-svc-controller-fed-managed | tr -d '"' | sed 's/ //g')"
-SECONDARY_CLUSTER_FEDMASTER_IP="$(terraform output -state=./remote/eks/terraform.tfstate neuvector-svc-controller-fed-master | tr -d '"' | sed 's/ //g')"
-SECONDARY_CLUSTER_FEDMANAGED_IP="$(terraform output -state=./remote/eks/terraform.tfstate neuvector-svc-controller-fed-managed | tr -d '"' | sed 's/ //g')"
+PRIMARY_CLUSTER_FEDMASTER_IP="$(terraform output -state=./primary/gke/terraform.tfstate neuvector_svc_controller_fed_master | tr -d '"' | sed 's/ //g')"
+PRIMARY_CLUSTER_FEDMANAGED_IP="$(terraform output -state=./primary/gke/terraform.tfstate neuvector_svc_controller_fed_managed | tr -d '"' | sed 's/ //g')"
+SECONDARY_CLUSTER_FEDMASTER_IP="$(terraform output -state=./remote/eks/terraform.tfstate neuvector_svc_controller_fed_master | tr -d '"' | sed 's/ //g')"
+SECONDARY_CLUSTER_FEDMANAGED_IP="$(terraform output -state=./remote/eks/terraform.tfstate neuvector_svc_controller_fed_managed | tr -d '"' | sed 's/ //g')"
 PRIMARY_CLUSTER_ADMIN_PWD="$(cat ./primary/gke/terraform.tfvars | grep -v "#" | grep -i neuvector_password | awk -F= '{print $2}' | tr -d '"' | sed 's/ //g')"
 SECONDARY_CLUSTER_ADMIN_PWD="$(cat ./remote/eks/terraform.tfvars | grep -v "#" | grep -i neuvector_password | awk -F= '{print $2}' | tr -d '"' | sed 's/ //g')"
 

@@ -1,7 +1,5 @@
 controller:
   replicas: 3
-  nodeSelector:
-    node-role.kubernetes.io/nvcontroller: ""
   federation:
     mastersvc:
       type: LoadBalancer
@@ -25,8 +23,6 @@ manager:
 cve:
   scanner:
     replicas: 2
-    nodeSelector:
-      node-role.kubernetes.io/nvcontroller: ""
 
 resources:
   limits:
